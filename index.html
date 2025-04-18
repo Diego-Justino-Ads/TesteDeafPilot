@@ -11,6 +11,10 @@
         <p>Este aplicativo é compatível apenas com telas maiores (mínimo 940px x 500px). Use um tablet.</p>
     </div>
 
+    <div id="bloqueioInternet" style="display: none;">
+        <p>Este aplicativo só pode ser usado offline. Desconecte-se da internet para continuar.</p>
+    </div>
+
     <h7>Deaf<scan>DataLink</scan> Technology</h7>
     <hr>
     <div id="main">
@@ -34,6 +38,7 @@
       </div>
 
       <script>
+        //Verificar tela
         function verificarTela() {
           const minLargura = 900;
           const minAltura = 460;
@@ -49,6 +54,27 @@
     
         window.addEventListener('load', verificarTela);
         window.addEventListener('resize', verificarTela);
+
+        //verificar conexão
+        function verificarModoOffline() {
+            const main = document.getElementById('main');
+            const bloqueioInternet = document.getElementById('bloqueioInternet');
+        
+            if (navigator.onLine) {
+              main.style.display = 'none';
+              bloqueioInternet.style.display = 'flex';
+            } else {
+              main.style.display = 'flex';
+              bloqueioInternet.style.display = 'none';
+            }
+          }
+        
+          // Detecta mudança de conexão
+          window.addEventListener('online', verificarModoOffline);
+          window.addEventListener('offline', verificarModoOffline);
+        
+          // Verifica ao carregar
+          window.addEventListener('load', verificarModoOffline);
 
         // Pega todos os botões dentro de .mensagemRapida
         const botoesRapidos = document.querySelectorAll('.mensagemRapida button');
