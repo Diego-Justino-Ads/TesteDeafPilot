@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Deaf DataLink Technology</title>
+</head>
+<body>
+    <div id="bloqueio" style="display: none;">
+        <p>Este aplicativo é compatível apenas com telas maiores (mínimo 940px x 500px). Use um tablet.</p>
+    </div>
+
+    <h7>Deaf<scan>DataLink</scan> Technology</h7>
+    <hr>
+    <div id="main">
+        <div class="exibir">
+            
+        </div>
+        <hr>
+        <div class="mensagem">
+            <hr>
+            <input type="text" placeholder="Digite sua mensagem..." />
+            <hr>
+        </div>
+
+        <div class="mensagemRapida">
+            <hr>
+            <button>Olá!</button>
+            <button>Como posso ajudar?</button>
+            <button>Já respondo!</button>
+            <button>Obrigado!</button>
+        </div>
+      </div>
+
+      <script>
+        function verificarTela() {
+          const minLargura = 940;
+          const minAltura = 500;
+    
+          if (window.innerWidth < minLargura || window.innerHeight < minAltura) {
+            document.getElementById('main').style.display = 'none';
+            document.getElementById('bloqueio').style.display = 'flex';
+          } else {
+            document.getElementById('main').style.display = 'flex';
+            document.getElementById('bloqueio').style.display = 'none';
+          }
+        }
+    
+        window.addEventListener('load', verificarTela);
+        window.addEventListener('resize', verificarTela);
+
+        // Pega todos os botões dentro de .mensagemRapida
+        const botoesRapidos = document.querySelectorAll('.mensagemRapida button');
+        const exibir = document.querySelector('.exibir');
+
+        // Função para pegar hora formatada (ex: 14:35)
+        function pegarHoraAtual() {
+            const agora = new Date();
+            const horas = agora.getHours().toString().padStart(2, '0');
+            const minutos = agora.getMinutes().toString().padStart(2, '0');
+            return `${horas}:${minutos}`;
+        }
+
+        botoesRapidos.forEach(botao => {
+            botao.addEventListener('click', () => {
+            const texto = botao.textContent;
+            const hora = pegarHoraAtual();
+
+            // Cria novo elemento de mensagem com hora
+            const novaMensagem = document.createElement('div');
+            novaMensagem.className = 'mensagem-enviada';
+            novaMensagem.innerHTML = `
+                ${texto}
+                <span class="hora">${hora}</span>
+            `;
+
+            exibir.appendChild(novaMensagem);
+            exibir.scrollTop = exibir.scrollHeight;
+            });
+        });
+      </script>
+
+</body>
+</html>
